@@ -74,6 +74,9 @@ Page({
     });
     if (this.data.currentTab == 1) {
       //tab切换时停止视频播放
+      var videoContextPrev = wx.createVideoContext('video' + this.data.videoIndex);
+      videoContextPrev.stop();
+      //tab切换时停止视频播放
       var videoContextPrev = wx.createVideoContext('day-video' + this.data.dayvideoIndex);
       videoContextPrev.stop();
       this.setData({
@@ -85,6 +88,9 @@ Page({
     } else {
       //tab切换时停止视频播放
       var videoContextPrev = wx.createVideoContext('video' + this.data.videoIndex);
+      videoContextPrev.stop();
+      //tab切换时停止视频播放
+      var videoContextPrev = wx.createVideoContext('day-video' + this.data.dayvideoIndex);
       videoContextPrev.stop();
       this.setData({
         videoList: [],
@@ -150,11 +156,9 @@ Page({
       this.setData({
         videoIndex: index
       })
-      console.log("播放精选：" + this.data.currentTab)
       var videoContext = wx.createVideoContext('video' + index)
       videoContext.play()
     } else {
-      console.log("停止精选：" + this.data.currentTab)
       //停止正在播放的精选视频
       var videoContextPrev = wx.createVideoContext('video' + this.data.videoIndex)
       videoContextPrev.stop()
@@ -162,7 +166,6 @@ Page({
       this.setData({
         videoIndex: index
       })
-      console.log("播放精选：" + this.data.currentTab)
       var videoContextCurrent = wx.createVideoContext('video' + index)
       videoContextCurrent.play()
     }
@@ -171,16 +174,14 @@ Page({
   dayvideoPlay(event) {
     var length = this.data.videorbList.length;
     var index = event.currentTarget.dataset['index'];
-    console.log("点击的下标：" + index);
+
     if (!this.data.dayvideoIndex) { // 没有播放时播放视频
       this.setData({
         dayvideoIndex: index
       })
-      console.log("播放日榜：" + index)
       var videoContext = wx.createVideoContext('day-video' + index)
       videoContext.play()
     } else {
-      console.log("停止日榜：" + index)
       //停止正在播放的视频
       var videoContextPrev = wx.createVideoContext('day-video' + this.data.dayvideoIndex)
       videoContextPrev.stop()
@@ -188,7 +189,6 @@ Page({
       this.setData({
         dayvideoIndex: index
       })
-      console.log("播放日榜：" + index)
       var videoContextCurrent = wx.createVideoContext('day-video' + index)
       videoContextCurrent.play()
     }
