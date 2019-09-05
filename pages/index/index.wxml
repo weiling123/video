@@ -26,7 +26,7 @@
                 <view class='wrapper'>
                   <view class='video-name'>{{item.videoTitle}}</view>
                   <video class='video-video' wx:if='{{index==videoIndex}}' id='video{{index}}' autoplay='{{true}}' show-center-play-btn="{{false}}" src='{{item.videoUrl}}' initial-time='{{startime}}' bindfullscreenchange="screenChange"
-                    show-fullscreen-btn="true" enable-progress-gesture="true"></video>
+                    show-fullscreen-btn="true" enable-progress-gesture="true" bindtimeupdate='videoTimeUpdate'></video>
                     <!-- bindtimeupdate='videoTimeUpdate' -->
                   <image class='video-video2' wx:if='{{index!=videoIndex}}' mode='aspectFill' src='{{item.videoPoster}}'></image>
                   <image class='videoPlay' wx:if='{{index!=videoIndex}}' data-index='{{index}}' bindtap='videoPlay' src='/images/play.png'></image>
@@ -78,7 +78,7 @@
                 </view>
               </view>
               <view class='wrapper'>
-                <video class='video-video' wx:if='{{index==dayvideoIndex}}' id='day-video{{index}}' autoplay='{{true}}' show-center-play-btn="{{false}}" src='{{item.videoUrl}}' initial-time='{{0}}'></video>
+                <video class='video-video' wx:if='{{index==dayvideoIndex}}' id='day-video{{index}}' autoplay='{{true}}' show-center-play-btn="{{false}}" src='{{item.videoUrl}}' initial-time='{{0}}' bindtimeupdate='videoTimeUpdaterb'></video>
                 <image class='video-video2' wx:if='{{index!=dayvideoIndex}}' mode='aspectFill' src='{{item.videoPoster}}'></image>
                 <image class='videoPlay' wx:if='{{index!=dayvideoIndex}}' data-index='{{index}}' bindtap='dayvideoPlay' src='/images/play.png'></image>
               </view>

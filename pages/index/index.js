@@ -149,6 +149,9 @@ Page({
 
   //精选播放视频
   videoPlay(event) {
+    this.setData({
+      flag: false
+    })
     var length = this.data.videoList.length;
     var index = event.currentTarget.dataset['index'];
     console.log("点击的下标：" + index);
@@ -172,6 +175,9 @@ Page({
   },
   //日榜播放视频
   dayvideoPlay(event) {
+    this.setData({
+      flag: false
+    })
     var length = this.data.videorbList.length;
     var index = event.currentTarget.dataset['index'];
 
@@ -193,40 +199,81 @@ Page({
       videoContextCurrent.play()
     }
   },
-  //实时获取播放进度
-  // videoTimeUpdate(res) {
-  //   console.log('bindtimeupdate', res.detail.currentTime, '时间总时长-->', parseInt(res.detail.duration));
-  //   var that = this;
-  //   if (that.data.flag) return;
-  //   if (parseInt(res.detail.currentTime) == 5) {
-  //     that.setData({
-  //       flag: true
-  //     })
-  //     //停止正在播放的视频
-  //     var videoContextPrev = wx.createVideoContext('video' + that.data.videoIndex)
-  //     videoContextPrev.stop()
-  //     wx.showModal({
-  //       title: '提示！',
-  //       content: '观看广告后可继续观看' + Math.floor(Math.random() * 50 + 50),
-  //       showCancel: true,
-  //       cancelText: '取消',
-  //       cancelColor: '',
-  //       confirmText: '确定',
-  //       confirmColor: '',
-  //       success: function(res) {
-  //         //确定
-  //         if (res.confirm) {
-  //           videoContextPrev.play()
-  //         } else if (res.cancel) {
-  //           videoContextPrev.seek(0);
-  //           that.setData({
-  //             flag: false,
-  //           })
-  //         }
-  //       },
-  //     })
-  //   }
-  // },
+  // 实时获取精选播放进度
+  videoTimeUpdate(res) {
+    console.log('bindtimeupdate', res.detail.currentTime, '时间总时长-->', parseInt(res.detail.duration));
+    var that = this;
+    if (that.data.flag) return;
+    if (parseInt(res.detail.currentTime) == 5) {
+      this.setData({
+        flag: true
+      })
+      //停止正在播放的视频
+      var videoContextPrevjx = wx.createVideoContext('video' + that.data.videoIndex)
+      videoContextPrevjx.stop()
+
+      wx.showModal({
+        title: '提示！',
+        // + Math.floor(Math.random() * 50 + 50)
+        content: '观看广告后可继续观看',
+        showCancel: true,
+        cancelText: '取消',
+        cancelColor: '',
+        confirmText: '确定',
+        confirmColor: '',
+        success: function(res) {
+          //确定
+          if (res.confirm) {
+
+            videoContextPrevjx.play()
+
+          } else if (res.cancel) {
+
+            videoContextPrevjx.seek(0);
+
+            that.setData({
+              flag: false,
+            })
+          }
+        },
+      })
+    }
+  },
+  // 实时获取日榜播放进度
+  videoTimeUpdaterb(res) {
+    console.log('bindtimeupdaterb', res.detail.currentTime, '时间总时长-->', parseInt(res.detail.duration));
+    var that = this;
+    if (that.data.flag) return;
+    if (parseInt(res.detail.currentTime) == 5) {
+      this.setData({
+        flag: true
+      })
+      //停止正在播放的视频
+      var videoContextPrevrb = wx.createVideoContext('day-video' + that.data.dayvideoIndex)
+      videoContextPrevrb.stop()
+      wx.showModal({
+        title: '提示！',
+        // + Math.floor(Math.random() * 50 + 50)
+        content: '观看广告后可继续观看',
+        showCancel: true,
+        cancelText: '取消',
+        cancelColor: '',
+        confirmText: '确定',
+        confirmColor: '',
+        success: function(res) {
+          //确定
+          if (res.confirm) {
+            videoContextPrevrb.play()
+          } else if (res.cancel) {
+            videoContextPrevrb.seek(0);
+            that.setData({
+              flag: false,
+            })
+          }
+        },
+      })
+    }
+  },
   // screenChange(e) {
   //   let fullScreen = e.detail.fullScreen //值true为进入全屏，false为退出全屏
   //   if (!fullScreen) { //退出全屏
@@ -383,20 +430,30 @@ Page({
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  refresh() {
-    this.data.page = 1
-    this.onVideoData('Loading...')
-  },
+  // refresh() {
+  //   this.data.page = 1
+  //   this.onVideoData('Loading...')
+  // },
   /**
    * 页面上拉触底事件的处理函数
    */
   loadMore() {
-    if (this.data.hasMoreData) {
-      this.onVideoData('加载更多数据')
+    if (this.data.currentTab == 0) {
+      if (this.data.hasMoreData) {
+        this.onVideoData('加载更多数据')
+      } else {
+        wx.showToast({
+          title: '没有更多数据',
+        })
+      }
     } else {
-      wx.showToast({
-        title: '没有更多数据',
-      })
+      if (this.data.hasMoreData) {
+        this.onVideorbData('加载更多数据')
+      } else {
+        wx.showToast({
+          title: '没有更多数据',
+        })
+      }
     }
   },
 
